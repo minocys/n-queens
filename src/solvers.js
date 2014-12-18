@@ -17,10 +17,25 @@ window.findNRooksSolution = function(n) {
   var solution = []; //fixme
   var obj = {'n' : n};
   var board = new Board({'n':n});
-  console.log(board.get(0));
+  
+  var check = function(row, column){
+    var depth = 0
+    while(board._isInBounds(row, column)){
+      if(depth === n){
+        solution.push(board.rows());
+        break;
+      }
+      board.togglePiece(row, column);
+      if(!this.hasAnyRooksConflicts()){
+        depth++;
+        check(row + 1);
+      } else {
+        board.togglePiece(row, column);
+        column++;
+      }
+    }
+  };
 
-
-  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
 };
 
